@@ -1,0 +1,5 @@
+@import '~@angular/material/theming';
+%primary-theme {
+    color: white;
+    background-color: mat-color($mat-blue);
+}
