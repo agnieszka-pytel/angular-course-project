@@ -22,7 +22,8 @@ $bookshelf-app-theme: mat-light-theme($bookshelf-app-primary, $bookshelf-app-acc
 
 /* You can add global styles to this file, and also import other style files */
 
-@import './assets/styles/';
+@import './assets/styles/index';
+
 html,
 body {
     height: 100%;
