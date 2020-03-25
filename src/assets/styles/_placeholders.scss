@@ -1,5 +1,10 @@
-@import '~@angular/material/theming';
+@import 'variables';
 %primary-theme {
     color: white;
-    background-color: mat-color($mat-blue);
+    background-color: $primary;
+}
+
+%reset-link {
+    text-decoration: none;
+    color: inherit;
 }

@@ -1,0 +1,24 @@
+<header class="c-header flex-container">
+    <div class="c-header__wrapper flex-container">
+        <a class="c-header__link c-header__small-section flex-container" [routerLink]="['/']" routerLinkActive="router-link-active">
+            <mat-icon class="c-header__icon">book</mat-icon>
+            <span class="c-header__title">BookShelf</span>
+        </a>
+        <nav class="c-menu c-header__big-section">
+            <ul class="c-menu__list flex-container">
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link c-header__link--transition" [routerLink]="['/history']" routerLinkActive="router-link-active">History</a>
+                </li>
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link c-header__link--transition" [routerLink]="['/toberead']" routerLinkActive="router-link-active">ToBeRead</a>
+                </li>
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link c-header__link--transition" [routerLink]="['/discover']" routerLinkActive="router-link-active">Discover</a>
+                </li>
+            </ul>
+        </nav>
+        <a class="c-header__link c-header__link--transition c-header__small-section flex-container" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
+            My profile <mat-icon class="c-header__icon--user">account_circle</mat-icon>
+        </a>
+    </div>
+</header>
