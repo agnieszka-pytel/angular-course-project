@@ -1,0 +1,7 @@
+@import "placeholders";
+.c-footer {
+    @extend %primary-theme;
+    &__copyright {
+        margin: 1.5em 0;
+    }
+}

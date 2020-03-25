@@ -1,0 +1,42 @@
+@import 'placeholders';
+@import 'variables';
+.c-header {
+    @extend %primary-theme;
+    font-size: 1.25em;
+    &__wrapper {
+        width: 90%;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin: 2em 0;
+    }
+    &__link {
+        @extend %reset-link;
+        line-height: 1em;
+        &--transition {
+            transition: all linear 0.2s;
+            &:hover {
+                color: $accent;
+                transition: all linear 0.2s;
+            }
+        }
+    }
+    &__title {
+        font-size: 1.75rem;
+        font-weight: 400;
+        margin-left: 0.25em;
+    }
+    &__icon {
+        &--user {
+            margin-left: 0.25em;
+        }
+    }
+}
+
+.c-menu {
+    &__list {
+        justify-content: space-evenly;
+    }
+    &__link {
+        padding: 0.5em 1em;
+    }
+}
