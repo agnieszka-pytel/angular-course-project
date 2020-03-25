@@ -3,22 +3,8 @@
 .c-header {
     @extend %primary-theme;
     font-size: 1.25em;
-    &__wrapper {
-        width: 90%;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin: 2em 0;
-    }
     &__link {
         @extend %reset-link;
-        line-height: 1em;
-        &--transition {
-            transition: all linear 0.2s;
-            &:hover {
-                color: $accent;
-                transition: all linear 0.2s;
-            }
-        }
     }
     &__title {
         font-size: 1.75rem;
@@ -33,10 +19,17 @@
 }
 
 .c-menu {
-    &__list {
-        justify-content: space-evenly;
+    &__item {
+        &:last-of-type {
+            margin-left: 1em;
+        }
     }
     &__link {
-        padding: 0.5em 1em;
+        margin: 0 0.5em;
+        transition: all linear 0.2s;
+        &:hover {
+            color: $accent;
+            transition: all linear 0.2s;
+        }
     }
 }

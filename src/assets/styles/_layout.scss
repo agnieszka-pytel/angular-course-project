@@ -1,9 +1,27 @@
-.flex-container {
+.fx {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    &-col {
+        flex-direction: column;
+    }
+    &-xcenter {
+        justify-content: center;
+    }
+    &-ycenter {
+        align-items: center;
+    }
+    &-spacebetween {
+        justify-content: space-between;
+    }
+    &-baseline {
+        align-items: baseline;
+    }
 }
 
 .full-width {
     width: 100%;
+}
+
+.basic-container {
+    width: 90%;
+    margin: 1.5rem auto;
 }
