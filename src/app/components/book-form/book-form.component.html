@@ -1,0 +1,24 @@
+<section class="flex-container">
+    <form [formGroup]="myForm">
+        <mat-form-field class="full-width">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Author</mat-label>
+            <input matInput type="text" formControlName="author">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Rating</mat-label>
+            <mat-select formControlName="rating">
+                <mat-option *ngFor="let rating of ratingValues" [value]="rating">
+                    {{rating}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="accent">Save</button>
+    </form>
+</section>
