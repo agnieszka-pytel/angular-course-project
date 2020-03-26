@@ -12,6 +12,7 @@ import { HistoryComponent } from './history.component';
 import { BooksComponent } from '@app/components/books/books.component';
 import { BookListComponent } from '@app/components/book-list/book-list.component';
 import { BookDetailsComponent } from '@app/components/book-details/book-details.component';
+import { BooksService } from '@app/shared/services/books.service';
 
 @NgModule({
   imports: [
@@ -24,10 +25,13 @@ import { BookDetailsComponent } from '@app/components/book-details/book-details.
     MatSelectModule,
   ],
   declarations: [
-      HistoryComponent,
-      BooksComponent,
-      BookListComponent,
-      BookDetailsComponent
-    ]
+    HistoryComponent,
+    BooksComponent,
+    BookListComponent,
+    BookDetailsComponent
+  ],
+  providers: [
+      BooksService
+  ]
 })
 export class HistoryModule { }
