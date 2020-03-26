@@ -9,7 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 
 import { HistoryComponent } from './history.component';
-import { BookFormComponent } from '@app/components/book-form/book-form.component';
+import { BooksComponent } from '@app/components/books/books.component';
 import { BookListComponent } from '@app/components/book-list/book-list.component';
 import { BookDetailsComponent } from '@app/components/book-details/book-details.component';
 
@@ -25,7 +25,7 @@ import { BookDetailsComponent } from '@app/components/book-details/book-details.
   ],
   declarations: [
       HistoryComponent,
-      BookFormComponent,
+      BooksComponent,
       BookListComponent,
       BookDetailsComponent
     ]

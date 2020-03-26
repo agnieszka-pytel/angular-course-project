@@ -2,12 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-book-form',
-  templateUrl: './book-form.component.html',
-  styleUrls: ['./book-form.component.scss'],
+  selector: 'app-books',
+  templateUrl: './books.component.html',
+  styleUrls: ['./books.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookFormComponent implements OnInit {
+export class BooksComponent implements OnInit {
 
   myForm: FormGroup;
   ratingValues: number[] = [1,2,3,4,5];
