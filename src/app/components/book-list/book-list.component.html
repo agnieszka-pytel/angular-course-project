@@ -1,1 +1,16 @@
-<p>book-list works!</p>
+<table style="width: 50%;">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let book of books | async">
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.rating }}</td>
+        </tr>
+    </tbody>
+</table>

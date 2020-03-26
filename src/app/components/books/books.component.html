@@ -1,5 +1,5 @@
 <section class="flex-container">
-    <form [formGroup]="myForm">
+    <form [formGroup]="myForm" autocomplete="off">
         <mat-form-field class="full-width">
             <mat-label>Title</mat-label>
             <input matInput type="text" formControlName="title">
@@ -19,6 +19,6 @@
             </mat-select>
         </mat-form-field>
 
-        <button mat-flat-button color="accent">Save</button>
+        <button mat-flat-button color="accent" (click)="onSubmit()">Save</button>
     </form>
 </section>

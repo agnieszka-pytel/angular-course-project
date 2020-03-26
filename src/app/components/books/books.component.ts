@@ -1,5 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { BooksService } from '@app/shared/services/books.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-books',
@@ -9,19 +11,28 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class BooksComponent implements OnInit {
 
-  myForm: FormGroup;
-  ratingValues: number[] = [1,2,3,4,5];
+    ratingValues: number[] = [1,2,3,4,5];  
+    myForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+    constructor(private fb: FormBuilder, private booksService:BooksService){
+    }
 
-  ngOnInit() {
-      this.myForm = this.fb.group({
-          title: '',
-          author: '',
-          rating: '',
-      });
+    onSubmit(){
+        let data = this.myForm.value;
+        this.booksService.addReadBook(data);
+    }
 
-      this.myForm.valueChanges.subscribe(console.log);
-  }
+    ngOnInit(){
+        this.myForm = this.fb.group({
+            title: '',
+            author: '',
+            rating: '',
+        });
+  
+        this.myForm.valueChanges
+            .pipe(
+                debounceTime(500))
+            .subscribe(console.log);
+    }
 
 }
