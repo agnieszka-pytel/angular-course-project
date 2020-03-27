@@ -1,0 +1,36 @@
+@import 'placeholders';
+@import 'variables';
+
+.c-header {
+    @extend %primary-theme;
+    font-size: 1.25em;
+    &__link {
+        @extend %reset-link;
+    }
+    &__title {
+        font-size: 1.75rem;
+        font-weight: 400;
+        margin-left: 0.25em;
+    }
+    &__icon {
+        &--user {
+            margin-left: 0.25em;
+        }
+    }
+}
+
+.c-menu {
+    &__item {
+        &:last-of-type {
+            margin-left: 1em;
+        }
+    }
+    &__link {
+        margin: 0 0.5em;
+        transition: all linear 0.2s;
+        &:hover {
+            color: $accent;
+            transition: all linear 0.2s;
+        }
+    }
+}

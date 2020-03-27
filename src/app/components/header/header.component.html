@@ -1,0 +1,26 @@
+<header class="c-header fx fx-xcenter">
+    <div class="basic-container fx fx-spacebetween">
+        <a class="c-header__link c-header__small-section fx fx-ycenter" [routerLink]="['/']" routerLinkActive="router-link-active">
+            <mat-icon class="c-header__icon">book</mat-icon>
+            <span class="c-header__title">BookShelf</span>
+        </a>
+        <nav class="c-menu c-header__big-section">
+            <ul class="c-menu__list fx fx-spacebetween fx-baseline">
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link" [routerLink]="['/history']" routerLinkActive="router-link-active">History</a>
+                </li>
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link" [routerLink]="['/toberead']" routerLinkActive="router-link-active">ToBeRead</a>
+                </li>
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link" [routerLink]="['/discover']" routerLinkActive="router-link-active">Discover</a>
+                </li>
+                <li class="c-menu__item">
+                    <a class="c-menu__link c-header__link c-header__small-section fx fx-ycenter" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
+                        My profile<mat-icon class="c-header__icon--user">account_circle</mat-icon>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
