@@ -34,6 +34,7 @@ export class BookListComponent implements OnInit {
     editBookHandler(book: ReadBook): void {
         const dialogRef = this.dialog.open(BooksDialogComponent, {
             width: '50%',
+            restoreFocus: false,
             data: book
         })
 
