@@ -14,6 +14,8 @@ export class BooksService {
   }
 
   addReadBook(data:ReadBook){
+      let today = new Date();
+      data.date = today.toLocaleDateString();
       return new Promise<any>((resolve, reject) => {
           this.firestore
             .collection('readBooks')
