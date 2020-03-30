@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { BookDialogComponent } from '../book-dialog/book-dialog.component';
+import { ConfirmDialogComponent } from '../book-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-book-list',
@@ -51,7 +52,17 @@ export class BookListComponent implements OnInit {
     }
 
     deleteBookHandler(book: ReadBook): void {
-        this.deleteBook(book);
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            width: '50%',
+            restoreFocus: false,
+            data: book
+        })
+
+        dialogRef.afterClosed().subscribe(result => {
+            if(result) { 
+                this.deleteBook(book);; 
+            }  
+        })
     }
 
     deleteBook(book: ReadBook): void{

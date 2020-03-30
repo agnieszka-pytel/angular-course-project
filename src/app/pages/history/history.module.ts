@@ -16,6 +16,7 @@ import { BookListComponent } from '@app/components/book-list/book-list.component
 import { BookDetailsComponent } from '@app/components/book-details/book-details.component';
 import { BooksService } from '@app/shared/services/books.service';
 import { BookDialogComponent } from '@app/components/book-dialog/book-dialog.component';
+import { ConfirmDialogComponent } from '@app/components/book-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { BookDialogComponent } from '@app/components/book-dialog/book-dialog.com
     BooksComponent,
     BookListComponent,
     BookDetailsComponent,
-    BookDialogComponent
+    BookDialogComponent,
+    ConfirmDialogComponent
   ],
   providers: [
       BooksService

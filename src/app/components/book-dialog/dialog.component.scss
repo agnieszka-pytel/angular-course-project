@@ -1,0 +1,19 @@
+.c-dialog {
+    &__title {
+        text-align: center;
+    }
+    &__content {
+        text-align: center;
+    }
+    &__actions {
+        display: flex;
+    }
+    &__book-title {
+        margin-top: 0.5em;
+        font-size: 1.2em;
+        font-weight: 500;
+    }
+    &__book-author {
+        color: rgba(0,0,0,0.5);
+    }
+}
