@@ -1,4 +1,4 @@
-<section class="flex-container">
+<section class="fx basic-container">
     <form [formGroup]="myForm" autocomplete="off">
         <mat-form-field class="full-width">
             <mat-label>Title</mat-label>
@@ -10,7 +10,7 @@
             <input matInput type="text" formControlName="author">
         </mat-form-field>
 
-        <mat-form-field class="full-width">
+        <mat-form-field class="">
             <mat-label>Rating</mat-label>
             <mat-select formControlName="rating">
                 <mat-option *ngFor="let rating of ratingValues" [value]="rating">
@@ -19,6 +19,8 @@
             </mat-select>
         </mat-form-field>
 
-        <button mat-flat-button color="accent" (click)="onSubmit()">Save</button>
+        <div *ngIf="!this.dialog">
+            <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
+        </div>
     </form>
 </section>

@@ -21,4 +21,24 @@ export class BooksService {
             .then(res => {}, err => reject(err))
       });
   }
+
+  updateReadBook(id:string, data: Partial<ReadBook>) {
+      return new Promise<any>((resolve, reject) => {
+          this.firestore
+            .collection('readBooks')
+            .doc(id)
+            .update(data)
+            .then(res => {}, err => reject(err))
+      })
+  }
+
+  deleteReadBook(id: string){
+    return new Promise<any>((resolve, reject) => {
+        this.firestore
+            .collection('readBooks')
+            .doc(id)
+            .delete()
+            .then(res => {}, err => reject(err));
+        })
+  }
 }
