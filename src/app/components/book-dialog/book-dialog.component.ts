@@ -3,17 +3,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReadBook } from '@app/shared/models/read-book.model';
 
 @Component({
-  selector: 'app-books-dialog',
-  templateUrl: './books-dialog.component.html',
-  styleUrls: ['./books-dialog.component.scss'],
+  selector: 'app-book-dialog',
+  templateUrl: './book-dialog.component.html',
+  styleUrls: ['./book-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BooksDialogComponent {
+export class BookDialogComponent {
     updatedBook: Partial<ReadBook>;
     dialogClosed: EventEmitter<Boolean> = new EventEmitter();
     
     constructor(
-        public dialogRef: MatDialogRef<BooksDialogComponent>,
+        public dialogRef: MatDialogRef<BookDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public book: ReadBook) {}
     
       getUpdatedBook($event: Partial<ReadBook>) {

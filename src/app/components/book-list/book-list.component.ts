@@ -4,7 +4,7 @@ import { ReadBook } from '@app/shared/models/read-book.model';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { BooksDialogComponent } from '../books/books-dialog.component';
+import { BookDialogComponent } from '../book-dialog/book-dialog.component';
 
 @Component({
   selector: 'app-book-list',
@@ -32,7 +32,7 @@ export class BookListComponent implements OnInit {
     }
 
     editBookHandler(book: ReadBook): void {
-        const dialogRef = this.dialog.open(BooksDialogComponent, {
+        const dialogRef = this.dialog.open(BookDialogComponent, {
             width: '50%',
             restoreFocus: false,
             data: book

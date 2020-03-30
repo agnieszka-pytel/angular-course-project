@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { ReadBook } from '@app/shared/models/read-book.model';
 import { MatDialogRef } from '@angular/material/dialog';
-import { BooksDialogComponent } from './books-dialog.component';
+import { BookDialogComponent } from '../book-dialog/book-dialog.component';
 
 @Component({
   selector: 'app-books',
@@ -14,7 +14,7 @@ import { BooksDialogComponent } from './books-dialog.component';
 })
 export class BooksComponent implements OnInit {
 
-    @Input() dialogRef?: MatDialogRef<BooksDialogComponent>;
+    @Input() dialogRef?: MatDialogRef<BookDialogComponent>;
     @Input() bookToUpdate?: ReadBook;
     @Input() dialogClosed: EventEmitter<Boolean>;
 
