@@ -5,6 +5,7 @@ import { ReadBook } from '@app/shared/models/read-book.model';
 @Component({
   selector: 'app-books-dialog',
   templateUrl: './books-dialog.component.html',
+  styleUrls: ['./books-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooksDialogComponent {

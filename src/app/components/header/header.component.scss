@@ -27,10 +27,6 @@
     }
     &__link {
         margin: 0 0.5em;
-        transition: all linear 0.2s;
-        &:hover {
-            color: $accent;
-            transition: all linear 0.2s;
-        }
+        font-size: 1rem;
     }
 }

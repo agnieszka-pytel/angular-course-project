@@ -1,14 +1,14 @@
 <div class="c-card__wrapper fx fx-spacebetween fx-wrap basic-container">
     <mat-card class="c-card" *ngFor="let book of books | async">
-        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-title class="c-card__title">{{ book.title }}</mat-card-title>
         <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
         <mat-card-subtitle><b>Rating: </b>{{ book.rating }}</mat-card-subtitle>
-        <mat-card-actions>
-            <button mat-button (click)="editBookHandler(book)">
-                <mat-icon>edit</mat-icon> Edit
-            </button>
+        <mat-card-actions class="c-card__actions fx fx-spaceevenly">
             <button mat-button (click)="deleteBookHandler(book)">
                 <mat-icon>delete</mat-icon> Delete
+            </button>
+            <button mat-button (click)="editBookHandler(book)">
+                <mat-icon>edit</mat-icon> Edit
             </button>
         </mat-card-actions>
     </mat-card>

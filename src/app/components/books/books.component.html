@@ -1,4 +1,4 @@
-<section class="fx basic-container">
+<section class="fx fx-xcenter basic-container">
     <form [formGroup]="myForm" autocomplete="off">
         <mat-form-field class="full-width">
             <mat-label>Title</mat-label>
@@ -12,15 +12,15 @@
 
         <mat-form-field class="">
             <mat-label>Rating</mat-label>
-            <mat-select formControlName="rating">
+            <mat-select disableOptionCentering formControlName="rating">
                 <mat-option *ngFor="let rating of ratingValues" [value]="rating">
                     {{rating}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <div *ngIf="!this.dialog">
-            <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
+        <div *ngIf="!this.dialog" class="fx fx-xcenter">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
         </div>
     </form>
 </section>
