@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BooksService } from '@app/shared/services/books.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { ReadBook } from '@app/shared/models/read-book.model';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -27,12 +27,6 @@ export class BooksComponent implements OnInit {
     constructor(private fb: FormBuilder, private booksService:BooksService){
     }
 
-    onSubmit(){
-        let data = this.myForm.value;
-        this.myForm.reset();
-        this.booksService.addReadBook(data);
-    }
-
     ngOnInit(){
         this.dialog = this.dialogRef ? true : false;
         
@@ -43,9 +37,9 @@ export class BooksComponent implements OnInit {
             rating: this.bookToUpdate.rating,
         }) : 
         this.myForm = this.fb.group({
-            title: '',
-            author: '',
-            rating: '',
+            title: ['', Validators.required],
+            author: ['', Validators.required],
+            rating: ['', Validators.required],
         });
   
         this.myForm.valueChanges
@@ -60,4 +54,21 @@ export class BooksComponent implements OnInit {
         }
     }
 
+    onSubmit(){
+        let data = this.myForm.value;
+        this.myForm.reset();
+        this.booksService.addReadBook(data);
+    }
+
+    get title(){
+        return this.myForm.get('title');
+    }
+
+    get author(){
+        return this.myForm.get('author');
+    }
+
+    get rating(){
+        return this.myForm.get('rating');
+    }
 }
