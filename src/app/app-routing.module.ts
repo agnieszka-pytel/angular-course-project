@@ -9,6 +9,7 @@ const routes: Routes = [
         pathMatch: 'full'},
     {path: 'history', 
         loadChildren: () => import('./pages/history/history.module').then(m => m.HistoryModule)},
+    { path: '**', loadChildren: () => import('./pages/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
 ];
 
 @NgModule({

@@ -2,6 +2,8 @@
 
 .c-footer {
     @extend %primary-theme;
+    position: absolute;
+    bottom: 0;
     &__copyright {
         margin: 1.5em 0;
     }
