@@ -17,12 +17,14 @@ import { BookDetailsComponent } from '@app/components/book-details/book-details.
 import { BooksService } from '@app/shared/services/books.service';
 import { BookDialogComponent } from '@app/components/book-dialog/book-dialog.component';
 import { ConfirmDialogComponent } from '@app/components/book-dialog/confirm-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
     CommonModule,
     HistoryRoutingModule,
     ReactiveFormsModule,
+    MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
