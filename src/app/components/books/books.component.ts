@@ -29,6 +29,7 @@ export class BooksComponent implements OnInit {
 
     onSubmit(){
         let data = this.myForm.value;
+        this.myForm.reset();
         this.booksService.addReadBook(data);
     }
 
