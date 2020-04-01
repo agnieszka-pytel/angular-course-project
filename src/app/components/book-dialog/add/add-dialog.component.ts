@@ -1,28 +1,35 @@
 import { Component, Inject, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReadBook } from '@app/shared/models/read-book.model';
+import { FormActions } from '@app/shared/enums';
 
 @Component({
-  selector: 'app-book-dialog',
-  templateUrl: './book-dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
+  selector: 'app-add-dialog',
+  templateUrl: './add-dialog.component.html',
+  styleUrls: ['../book-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookDialogComponent {
-    updatedBook: Partial<ReadBook>;
+export class AddDialogComponent {
+    action = FormActions.Add;
+    newBook: ReadBook;
+    formInvalid: Boolean;
     dialogClosed: EventEmitter<Boolean> = new EventEmitter();
     
     constructor(
-        public dialogRef: MatDialogRef<BookDialogComponent>,
+        public dialogRef: MatDialogRef<AddDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public book: ReadBook) {}
     
-      getUpdatedBook($event: Partial<ReadBook>) {
-        this.updatedBook = $event;
+      getNewBook($event: ReadBook) { 
+        this.newBook = $event;
+      }
+
+      getFormStatus($event: Boolean) {
+          this.formInvalid = $event;
       }
 
       onSubmit() {
         this.dialogClosed.emit(true);
-        this.dialogRef.close(this.updatedBook);
+        this.dialogRef.close(this.newBook); 
       }
 
       onNoClick() {

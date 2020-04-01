@@ -15,9 +15,10 @@ import { BooksComponent } from '@app/components/books/books.component';
 import { BookListComponent } from '@app/components/book-list/book-list.component';
 import { BookDetailsComponent } from '@app/components/book-details/book-details.component';
 import { BooksService } from '@app/shared/services/books.service';
-import { BookDialogComponent } from '@app/components/book-dialog/book-dialog.component';
-import { ConfirmDialogComponent } from '@app/components/book-dialog/confirm-dialog.component';
+import { EditDialogComponent } from '@app/components/book-dialog/edit/edit-dialog.component';
+import { ConfirmDialogComponent } from '@app/components/book-dialog/confirm/confirm-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
+import { AddDialogComponent } from '@app/components/book-dialog/add/add-dialog.component';
  
 @NgModule({
   imports: [
@@ -37,8 +38,9 @@ import { MatIconModule } from '@angular/material/icon';
     BooksComponent,
     BookListComponent,
     BookDetailsComponent,
-    BookDialogComponent,
-    ConfirmDialogComponent
+    EditDialogComponent,
+    ConfirmDialogComponent,
+    AddDialogComponent
   ],
   providers: [
       BooksService

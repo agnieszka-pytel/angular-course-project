@@ -4,8 +4,10 @@ import { ReadBook } from '@app/shared/models/read-book.model';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { BookDialogComponent } from '../book-dialog/book-dialog.component';
-import { ConfirmDialogComponent } from '../book-dialog/confirm-dialog.component';
+import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
+import { ConfirmDialogComponent } from '../book-dialog/confirm/confirm-dialog.component';
+import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
+import { FormActions } from '@app/shared/enums';
 
 @Component({
   selector: 'app-book-list',
@@ -32,8 +34,28 @@ export class BookListComponent implements OnInit {
             )
     }
 
+    addBookHandler(): void {
+        const dialogRef = this.dialog.open(AddDialogComponent, {
+            width: '50%',
+            restoreFocus: false
+        })
+
+        dialogRef.componentInstance.action = FormActions.Add;
+
+        dialogRef.afterClosed().subscribe(result => {
+            if(result) {
+                this.addBook(result); 
+            }  
+        })
+    }
+
+    addBook(book: ReadBook): void{
+        this.booksService
+            .addReadBook(book);
+    }
+
     editBookHandler(book: ReadBook): void {
-        const dialogRef = this.dialog.open(BookDialogComponent, {
+        const dialogRef = this.dialog.open(EditDialogComponent, {
             width: '50%',
             restoreFocus: false,
             data: book

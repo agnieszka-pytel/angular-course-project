@@ -1,6 +1,6 @@
 <h1 mat-dialog-title class="c-dialog__title">Edit book</h1>
 <div mat-dialog-content>
-    <app-books [dialogRef]="dialogRef" [bookToUpdate]="book" (updatedBook)="getUpdatedBook($event)" [dialogClosed]="dialogClosed"></app-books>
+    <app-books [action]="action" [dialogRef]="dialogRef" [bookToUpdate]="book" (updatedBook)="getUpdatedBook($event)" [dialogClosed]="dialogClosed"></app-books>
 </div>
 <div mat-dialog-actions class="c-dialog__actions fx fx-spacebetween">
     <button mat-raised-button (click)="onNoClick()">Discard</button>

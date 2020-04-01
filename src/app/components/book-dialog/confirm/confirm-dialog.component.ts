@@ -5,7 +5,7 @@ import { ReadBook } from '@app/shared/models/read-book.model';
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
+  styleUrls: ['../book-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmDialogComponent {
