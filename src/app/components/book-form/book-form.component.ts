@@ -9,12 +9,12 @@ import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
 import { FormActions } from '@app/shared/enums';
 
 @Component({
-  selector: 'app-books',
-  templateUrl: './books.component.html',
-  styleUrls: ['./books.component.scss'],
+  selector: 'app-book-form',
+  templateUrl: './book-form.component.html',
+  styleUrls: ['./book-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BooksComponent implements OnInit {
+export class BookFormComponent implements OnInit {
 
     @Input() action: FormActions;
     @Input() dialogRef?: MatDialogRef<EditDialogComponent | AddDialogComponent>;

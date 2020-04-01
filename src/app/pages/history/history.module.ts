@@ -11,7 +11,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
 
 import { HistoryComponent } from './history.component';
-import { BooksComponent } from '@app/components/books/books.component';
+import { BookFormComponent } from '@app/components/book-form/book-form.component';
 import { BookListComponent } from '@app/components/book-list/book-list.component';
 import { BookDetailsComponent } from '@app/components/book-details/book-details.component';
 import { BooksService } from '@app/shared/services/books.service';
@@ -35,7 +35,7 @@ import { AddDialogComponent } from '@app/components/book-dialog/add/add-dialog.c
   ],
   declarations: [
     HistoryComponent,
-    BooksComponent,
+    BookFormComponent,
     BookListComponent,
     BookDetailsComponent,
     EditDialogComponent,
