@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { HistoryComponent } from './history.component';
 import { BookFormComponent } from '@app/components/book-form/book-form.component';
@@ -31,7 +32,8 @@ import { AddDialogComponent } from '@app/components/book-dialog/add/add-dialog.c
     MatButtonModule,
     MatSelectModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   declarations: [
     HistoryComponent,

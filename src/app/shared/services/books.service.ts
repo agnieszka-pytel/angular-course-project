@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ReadBook } from '@app/shared/models/read-book.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BookMessages } from '../enums';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService {
 
-  constructor( private firestore: AngularFirestore ) { }
+  constructor( private firestore: AngularFirestore, private snackBar: MatSnackBar ) { }
 
   getReadBooks(){
       return this.firestore.collection('readBooks').snapshotChanges();
@@ -20,7 +22,10 @@ export class BooksService {
           this.firestore
             .collection('readBooks')
             .add(data)
-            .then(res => {}, err => reject(err))
+            .then(
+                res => { this.showMessage(BookMessages.SuccessAdd) },
+                err => { this.showMessage(BookMessages.ErrorAdd); reject(err) }
+            )
       });
   }
 
@@ -30,7 +35,10 @@ export class BooksService {
             .collection('readBooks')
             .doc(id)
             .update(data)
-            .then(res => {}, err => reject(err))
+            .then(
+                res => { this.showMessage(BookMessages.SuccessEdit) },
+                err => { this.showMessage(BookMessages.ErrorEdit); reject(err) }
+            )
       })
   }
 
@@ -40,7 +48,14 @@ export class BooksService {
             .collection('readBooks')
             .doc(id)
             .delete()
-            .then(res => {}, err => reject(err));
+            .then(
+                res => { this.showMessage(BookMessages.SuccessDelete) },
+                err => { this.showMessage(BookMessages.ErrorDelete); reject(err) }
+            )
         })
+  }
+
+  showMessage(message: string) {
+      this.snackBar.open(message, '', { duration: 2500 })
   }
 }
