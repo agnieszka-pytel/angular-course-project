@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { IReadBook } from '@app/shared/models/read-book.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Collections, BookMessages } from '../enums';
+import { Observable, from, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,51 +13,55 @@ export class BooksService {
 
   constructor( private firestore: AngularFirestore, private snackBar: MatSnackBar ) { }
 
-  getReadBooks(){
+  getReadBooks(): Observable<DocumentChangeAction<unknown>[]> {
       return this.firestore.collection(Collections.ReadBooks).snapshotChanges();
   }
 
-  addReadBook(data:IReadBook){
+  addReadBook(data: IReadBook): Observable<void> {
       let today = new Date();
       data.date = today.toLocaleDateString();
-      return new Promise<any>((resolve, reject) => {
+
+      return from(
           this.firestore
             .collection(Collections.ReadBooks)
             .add(data)
-            .then(
-                res => { this.showMessage(BookMessages.SuccessAdd) },
-                err => { this.showMessage(BookMessages.ErrorAdd); reject(err) }
-            )
-      });
+      ).pipe(
+          map(res => {
+              this.showMessage(BookMessages.SuccessAdd)
+            }),
+          catchError(error => of(this.showMessage(BookMessages.ErrorAdd)))
+      )
   }
 
-  updateReadBook(id:string, data: Partial<IReadBook>) {
-      return new Promise<any>((resolve, reject) => {
+  updateReadBook(id: string, data: Partial<IReadBook>): Observable<void> {
+      return from(
           this.firestore
             .collection(Collections.ReadBooks)
             .doc(id)
             .update(data)
-            .then(
-                res => { this.showMessage(BookMessages.SuccessEdit) },
-                err => { this.showMessage(BookMessages.ErrorEdit); reject(err) }
-            )
-      })
+      ).pipe(
+          map(res => {
+              this.showMessage(BookMessages.SuccessEdit)
+            }),
+            catchError(error => of(this.showMessage(BookMessages.ErrorEdit)))
+        )
   }
 
-  deleteReadBook(id: string){
-    return new Promise<any>((resolve, reject) => {
+  deleteReadBook(id: string): Observable<void> {
+    return from(
         this.firestore
             .collection(Collections.ReadBooks)
             .doc(id)
             .delete()
-            .then(
-                res => { this.showMessage(BookMessages.SuccessDelete) },
-                err => { this.showMessage(BookMessages.ErrorDelete); reject(err) }
-            )
-        })
+    ).pipe(
+        map(res => {
+            this.showMessage(BookMessages.SuccessDelete)
+          }),
+          catchError(error => of(this.showMessage(BookMessages.ErrorDelete)))
+      )
   }
 
-  showMessage(message: string) {
+  showMessage(message: string): void {
       this.snackBar.open(message, '', { duration: 2500 })
   }
 }
