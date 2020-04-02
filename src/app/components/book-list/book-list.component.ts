@@ -18,15 +18,15 @@ import { FormActions } from '@app/shared/enums';
 export class BookListComponent implements OnInit, OnDestroy {
 
     _books: BehaviorSubject<IReadBook[]>;
-    books: Observable<IReadBook[]>;
+    books$: Observable<IReadBook[]>;
     subscriptions: Subscription[];
 
     constructor(private booksService: BooksService, public dialog: MatDialog) {
         this._books = new BehaviorSubject([]);
-        this.books = this._books.asObservable();
+        this.books$ = this._books.asObservable();
     }
 
-    getBooks(): void {
+    observeBooks(): void {
         this.subscriptions.push(
             this.booksService
                 .getReadBooks().pipe(
@@ -118,7 +118,7 @@ export class BookListComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptions = [];
-        this.getBooks();
+        this.observeBooks();
     }
 
     ngOnDestroy() {
