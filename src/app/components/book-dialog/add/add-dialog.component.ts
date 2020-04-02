@@ -12,8 +12,8 @@ import { FormActions } from '@app/shared/enums';
 export class AddDialogComponent {
     action = FormActions.Add;
     newBook: IReadBook;
-    formInvalid: Boolean;
-    dialogClosed: EventEmitter<Boolean> = new EventEmitter();
+    formInvalid: boolean;
+    dialogClosed: EventEmitter<boolean> = new EventEmitter();
     
     constructor(
         public dialogRef: MatDialogRef<AddDialogComponent>,
@@ -23,7 +23,7 @@ export class AddDialogComponent {
         this.newBook = $event;
       }
 
-      getFormStatus($event: Boolean) {
+      getFormStatus($event: boolean) {
           this.formInvalid = $event;
       }
 

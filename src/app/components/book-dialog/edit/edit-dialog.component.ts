@@ -12,7 +12,7 @@ import { FormActions } from '@app/shared/enums';
 export class EditDialogComponent {
     readonly action = FormActions.Edit;
     updatedBook: Partial<IReadBook>;
-    dialogClosed: EventEmitter<Boolean> = new EventEmitter();
+    dialogClosed: EventEmitter<boolean> = new EventEmitter();
     
     constructor(
         public dialogRef: MatDialogRef<EditDialogComponent>,

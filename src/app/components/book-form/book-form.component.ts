@@ -19,11 +19,11 @@ export class BookFormComponent implements OnInit {
     @Input() action: FormActions;
     @Input() dialogRef?: MatDialogRef<EditDialogComponent | AddDialogComponent>;
     @Input() bookToUpdate?: IReadBook;
-    @Input() dialogClosed: EventEmitter<Boolean>;
+    @Input() dialogClosed: EventEmitter<boolean>;
 
     @Output() updatedBook? = new EventEmitter<Partial<IReadBook>>(); 
     @Output() newBook? = new EventEmitter<IReadBook>(); 
-    @Output() formInvalid? = new EventEmitter<Boolean>();
+    @Output() formInvalid? = new EventEmitter<boolean>();
 
     ratingValues: number[] = [1,2,3,4,5];  
     myForm: FormGroup;
