@@ -1,6 +1,6 @@
 import { Component, Inject, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ReadBook } from '@app/shared/models/read-book.model';
+import { IReadBook } from '@app/shared/models/read-book.model';
 import { FormActions } from '@app/shared/enums';
 
 @Component({
@@ -11,15 +11,15 @@ import { FormActions } from '@app/shared/enums';
 })
 export class AddDialogComponent {
     action = FormActions.Add;
-    newBook: ReadBook;
+    newBook: IReadBook;
     formInvalid: Boolean;
     dialogClosed: EventEmitter<Boolean> = new EventEmitter();
     
     constructor(
         public dialogRef: MatDialogRef<AddDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public book: ReadBook) {}
+        @Inject(MAT_DIALOG_DATA) public book: IReadBook) {}
     
-      getNewBook($event: ReadBook) { 
+      getNewBook($event: IReadBook) { 
         this.newBook = $event;
       }
 

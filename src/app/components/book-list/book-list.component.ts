@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { BooksService } from '@app/shared/services/books.service';
-import { ReadBook } from '@app/shared/models/read-book.model';
+import { IReadBook } from '@app/shared/models/read-book.model';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,7 +17,7 @@ import { FormActions } from '@app/shared/enums';
 })
 export class BookListComponent implements OnInit {
 
-    books: Observable<ReadBook[]>;
+    books: Observable<IReadBook[]>;
 
     constructor(private booksService:BooksService, public dialog: MatDialog){}
 
@@ -28,7 +28,7 @@ export class BookListComponent implements OnInit {
                     return {
                         id: element.payload.doc.id,
                         ...(element.payload.doc.data() as {})
-                    } as ReadBook;
+                    } as IReadBook;
                     })
                 )
             )
@@ -49,12 +49,12 @@ export class BookListComponent implements OnInit {
         })
     }
 
-    addBook(book: ReadBook): void{
+    addBook(book: IReadBook): void{
         this.booksService
             .addReadBook(book);
     }
 
-    editBookHandler(book: ReadBook): void {
+    editBookHandler(book: IReadBook): void {
         const dialogRef = this.dialog.open(EditDialogComponent, {
             width: '50%',
             restoreFocus: false,
@@ -68,12 +68,12 @@ export class BookListComponent implements OnInit {
         })
     }
 
-    editBook(book: ReadBook, updatedBook: ReadBook): void{
+    editBook(book: IReadBook, updatedBook: IReadBook): void{
         this.booksService
             .updateReadBook(book.id, updatedBook);
     }
 
-    deleteBookHandler(book: ReadBook): void {
+    deleteBookHandler(book: IReadBook): void {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '50%',
             restoreFocus: false,
@@ -87,7 +87,7 @@ export class BookListComponent implements OnInit {
         })
     }
 
-    deleteBook(book: ReadBook): void{
+    deleteBook(book: IReadBook): void{
         this.booksService
             .deleteReadBook(book.id);
     }

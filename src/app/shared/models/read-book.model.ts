@@ -1,8 +1,9 @@
-import { Book } from './book.model';
-
 type Rating = 1 | 2 | 3 | 4 | 5;
 
-export class ReadBook extends Book {
+export interface IReadBook {
+    id: string;
+    title: string;
+    author: string;
     date: string;
     rating: Rating;
 }

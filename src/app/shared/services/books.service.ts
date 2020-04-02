@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ReadBook } from '@app/shared/models/read-book.model';
+import { IReadBook } from '@app/shared/models/read-book.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Collections, BookMessages } from '../enums';
 
@@ -15,7 +15,7 @@ export class BooksService {
       return this.firestore.collection(Collections.ReadBooks).snapshotChanges();
   }
 
-  addReadBook(data:ReadBook){
+  addReadBook(data:IReadBook){
       let today = new Date();
       data.date = today.toLocaleDateString();
       return new Promise<any>((resolve, reject) => {
@@ -29,7 +29,7 @@ export class BooksService {
       });
   }
 
-  updateReadBook(id:string, data: Partial<ReadBook>) {
+  updateReadBook(id:string, data: Partial<IReadBook>) {
       return new Promise<any>((resolve, reject) => {
           this.firestore
             .collection(Collections.ReadBooks)

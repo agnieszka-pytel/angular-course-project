@@ -1,6 +1,6 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ReadBook } from '@app/shared/models/read-book.model';
+import { IReadBook } from '@app/shared/models/read-book.model';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -11,7 +11,7 @@ import { ReadBook } from '@app/shared/models/read-book.model';
 export class ConfirmDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public book: ReadBook) {}
+        @Inject(MAT_DIALOG_DATA) public book: IReadBook) {}
 
       onSubmit() {
         this.dialogRef.close(true);

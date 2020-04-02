@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, OnInit, Input, Output, EventEmitter
 import { BooksService } from '@app/shared/services/books.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { ReadBook } from '@app/shared/models/read-book.model';
+import { IReadBook } from '@app/shared/models/read-book.model';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
@@ -18,11 +18,11 @@ export class BookFormComponent implements OnInit {
 
     @Input() action: FormActions;
     @Input() dialogRef?: MatDialogRef<EditDialogComponent | AddDialogComponent>;
-    @Input() bookToUpdate?: ReadBook;
+    @Input() bookToUpdate?: IReadBook;
     @Input() dialogClosed: EventEmitter<Boolean>;
 
-    @Output() updatedBook? = new EventEmitter<Partial<ReadBook>>(); 
-    @Output() newBook? = new EventEmitter<ReadBook>(); 
+    @Output() updatedBook? = new EventEmitter<Partial<IReadBook>>(); 
+    @Output() newBook? = new EventEmitter<IReadBook>(); 
     @Output() formInvalid? = new EventEmitter<Boolean>();
 
     ratingValues: number[] = [1,2,3,4,5];  
