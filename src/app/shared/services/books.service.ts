@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ReadBook } from '@app/shared/models/read-book.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BookMessages } from '../enums';
+import { Collections, BookMessages } from '../enums';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class BooksService {
   constructor( private firestore: AngularFirestore, private snackBar: MatSnackBar ) { }
 
   getReadBooks(){
-      return this.firestore.collection('readBooks').snapshotChanges();
+      return this.firestore.collection(Collections.ReadBooks).snapshotChanges();
   }
 
   addReadBook(data:ReadBook){
@@ -20,7 +20,7 @@ export class BooksService {
       data.date = today.toLocaleDateString();
       return new Promise<any>((resolve, reject) => {
           this.firestore
-            .collection('readBooks')
+            .collection(Collections.ReadBooks)
             .add(data)
             .then(
                 res => { this.showMessage(BookMessages.SuccessAdd) },
@@ -32,7 +32,7 @@ export class BooksService {
   updateReadBook(id:string, data: Partial<ReadBook>) {
       return new Promise<any>((resolve, reject) => {
           this.firestore
-            .collection('readBooks')
+            .collection(Collections.ReadBooks)
             .doc(id)
             .update(data)
             .then(
@@ -45,7 +45,7 @@ export class BooksService {
   deleteReadBook(id: string){
     return new Promise<any>((resolve, reject) => {
         this.firestore
-            .collection('readBooks')
+            .collection(Collections.ReadBooks)
             .doc(id)
             .delete()
             .then(

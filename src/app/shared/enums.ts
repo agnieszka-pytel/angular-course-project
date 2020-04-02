@@ -1,3 +1,7 @@
+export enum Collections {
+    ReadBooks = "readBooks"
+}
+
 export enum FormActions {
     Add = "ADD",
     Edit = "EDIT"
