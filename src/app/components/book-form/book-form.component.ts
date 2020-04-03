@@ -14,61 +14,60 @@ import { FormActions, BookFormFields } from '@app/shared/enums';
 })
 export class BookFormComponent implements OnInit {
 
-    @Input() action: FormActions;
-    @Input() dialogRef?: MatDialogRef<EditDialogComponent | AddDialogComponent>;
-    @Input() bookToUpdate?: IReadBook;
-    @Input() dialogClosed: EventEmitter<boolean>;
+  @Input() action: FormActions;
+  @Input() dialogRef?: MatDialogRef<EditDialogComponent | AddDialogComponent>;
+  @Input() bookToUpdate?: IReadBook;
+  @Input() dialogClosed: EventEmitter<boolean>;
 
-    @Output() updatedBook? = new EventEmitter<Partial<IReadBook>>(); 
-    @Output() newBook? = new EventEmitter<IReadBook>(); 
-    @Output() formInvalid? = new EventEmitter<boolean>();
+  @Output() updatedBook? = new EventEmitter<Partial<IReadBook>>(); 
+  @Output() newBook? = new EventEmitter<IReadBook>(); 
+  @Output() formInvalid? = new EventEmitter<boolean>();
 
-    ratingValues: number[] = [1,2,3,4,5];  
-    myForm: FormGroup;
+  ratingValues: number[] = [1,2,3,4,5];  
+  myForm: FormGroup;
  
-    constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { }
 
-    ngOnInit(){
-        if (this.action === FormActions.Add) {
-            this.myForm = this.fb.group({
-                title: ['', Validators.required],
-                author: ['', Validators.required],
-                rating: ['', Validators.required],
-            });
+  ngOnInit(){
+    if (this.action === FormActions.Add) {
+      this.myForm = this.fb.group({
+        title: ['', Validators.required],
+        author: ['', Validators.required],
+        rating: ['', Validators.required],
+    });
 
-            this.formInvalid.emit(this.myForm.invalid)   
-        } else if (this.action === FormActions.Edit) {
-            this.myForm = this.fb.group({
-                title: this.bookToUpdate.title,
-                author: this.bookToUpdate.author,
-                rating: this.bookToUpdate.rating,
-            })
-        }
+      this.formInvalid.emit(this.myForm.invalid)   
+    } else if (this.action === FormActions.Edit) {
+      this.myForm = this.fb.group({
+        title: this.bookToUpdate.title,
+        author: this.bookToUpdate.author,
+        rating: this.bookToUpdate.rating,
+      })
+    }
   
-        this.myForm.valueChanges
-            .subscribe(() => {
-                this.formInvalid.emit(this.myForm.invalid);
-            });
-
+    this.myForm.valueChanges
+    .subscribe(() => {
+      this.formInvalid.emit(this.myForm.invalid);
+    });
     
-        if (this.dialogClosed) {
-            this.dialogClosed.subscribe((): void => {
-                this.action === FormActions.Edit ? 
-                    this.updatedBook.emit(this.myForm.value) :
-                    this.newBook.emit(this.myForm.value)
-            })
-        }
+    if (this.dialogClosed) {
+      this.dialogClosed.subscribe((): void => {
+        this.action === FormActions.Edit ? 
+        this.updatedBook.emit(this.myForm.value) :
+        this.newBook.emit(this.myForm.value)
+      })
     }
+  }
 
-    get title(): AbstractControl {
-        return this.myForm.get(BookFormFields.Title);
-    }
+  get title(): AbstractControl {
+    return this.myForm.get(BookFormFields.Title);
+  }
 
-    get author(): AbstractControl {
-        return this.myForm.get(BookFormFields.Author);
-    }
+  get author(): AbstractControl {
+    return this.myForm.get(BookFormFields.Author);
+  }
 
-    get rating(): AbstractControl {
-        return this.myForm.get(BookFormFields.Rating);
-    }
+  get rating(): AbstractControl {
+    return this.myForm.get(BookFormFields.Rating);
+  }
 }

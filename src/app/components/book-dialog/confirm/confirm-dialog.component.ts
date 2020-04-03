@@ -9,15 +9,16 @@ import { IReadBook } from '@app/shared/models/read-book.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmDialogComponent {
-    constructor(
-        public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public book: IReadBook) {}
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public book: IReadBook
+  ) {}
 
-      onSubmit() {
-        this.dialogRef.close(true);
-      }
+  onSubmit() {
+    this.dialogRef.close(true);
+  }
 
-      onNoClick() {
-        this.dialogRef.close();
-      }
+  onNoClick() {
+    this.dialogRef.close();
+  }
 }

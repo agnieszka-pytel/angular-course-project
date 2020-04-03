@@ -18,112 +18,113 @@ import { DocumentChangeAction } from '@angular/fire/firestore';
 })
 export class BookListComponent implements OnInit, OnDestroy {
 
-    _books: BehaviorSubject<IReadBook[]>;
-    books$: Observable<IReadBook[]>;
-    subscriptions: Subscription[];
+  _books: BehaviorSubject<IReadBook[]>;
+  books$: Observable<IReadBook[]>;
+  subscriptions: Subscription[];
 
-    constructor(private booksService: BooksService, public dialog: MatDialog) {
-        this._books = new BehaviorSubject([]);
-        this.books$ = this._books.asObservable();
-    }
+  constructor(private booksService: BooksService, public dialog: MatDialog) {
+    this._books = new BehaviorSubject([]);
+    this.books$ = this._books.asObservable();
+  }
 
-    observeBooks(): void {
-        this.subscriptions.push(
-            this.booksService
-                .getReadBooks().pipe(
-                    map((data: DocumentChangeAction<unknown>[]): IReadBook[] => data
-                        .map((element: DocumentChangeAction<unknown>): IReadBook => {
-                            return {
-                                id: element.payload.doc.id,
-                                ...(element.payload.doc.data() as {})
-                            } as IReadBook;
-                            })
-                    )
-                ).subscribe((data: IReadBook[]): void => {
-                    this._books.next(data)
-                })
-        )
-    }
-
-    addBookHandler(): void {
-        const dialogRef = this.dialog.open(AddDialogComponent, {
-            width: '50%',
-            restoreFocus: false
+  observeBooks(): void {
+    this.subscriptions.push(
+      this.booksService
+      .getReadBooks().pipe(
+        map((data: DocumentChangeAction<unknown>[]): IReadBook[] => {
+          return data.map((element: DocumentChangeAction<unknown>): IReadBook => {
+            return {
+              id: element.payload.doc.id,
+              ...(element.payload.doc.data() as {})
+            } as IReadBook;
+          })
         })
+      ).subscribe((data: IReadBook[]): void => {
+        this._books.next(data)
+      })
+    )
+  }
 
-        dialogRef.componentInstance.action = FormActions.Add;
+  addBookHandler(): void {
+    const dialogRef = this.dialog.open(AddDialogComponent, {
+      width: '50%',
+      restoreFocus: false
+    })
 
-        this.subscriptions.push(
-            dialogRef.afterClosed().subscribe((result: IReadBook): void => {
-                if(result) {
-                    this.addBook(result); 
-                }  
-            })
-        )
-    }
+    dialogRef.componentInstance.action = FormActions.Add;
 
-    addBook(book: IReadBook): void {
-        this.subscriptions.push(
-            this.booksService
-                .addReadBook(book)
-                .subscribe()
-        )
-    }
+    this.subscriptions.push(
+      dialogRef.afterClosed().subscribe((result: IReadBook): void => {
+        if (result) {
+          this.addBook(result); 
+        }  
+      })
+    )
+  }
 
-    editBookHandler(book: IReadBook): void {
-        const dialogRef = this.dialog.open(EditDialogComponent, {
-            width: '50%',
-            restoreFocus: false,
-            data: book
-        })
+  addBook(book: IReadBook): void {
+    this.subscriptions.push(
+      this.booksService
+      .addReadBook(book)
+      .subscribe()
+    )
+  }
 
-        this.subscriptions.push(
-            dialogRef.afterClosed().subscribe((result: Partial<IReadBook>): void => {
-                if(result) { 
-                    this.editBook(book, result); 
-                }  
-            })    
-        )
-    }
+  editBookHandler(book: IReadBook): void {
+    const dialogRef = this.dialog.open(EditDialogComponent, {
+      width: '50%',
+      restoreFocus: false,
+      data: book
+    })
 
-    editBook(book: IReadBook, updatedBook: Partial<IReadBook>): void{
-        this.subscriptions.push(
-            this.booksService
-                .updateReadBook(book.id, updatedBook)
-                .subscribe()
-        )
-    }
+    this.subscriptions.push(
+      dialogRef.afterClosed().subscribe((result: Partial<IReadBook>): void => {
+          if (result) { 
+            this.editBook(book, result); 
+          }  
+      })    
+    )
+  }
 
-    deleteBookHandler(book: IReadBook): void {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            width: '50%',
-            restoreFocus: false,
-            data: book
-        })
+  editBook(book: IReadBook, updatedBook: Partial<IReadBook>): void{
+    this.subscriptions.push(
+      this.booksService
+      .updateReadBook(book.id, updatedBook)
+      .subscribe()
+    )
+  }
 
-        this.subscriptions.push(
-            dialogRef.afterClosed().subscribe((result: boolean): void => {
-                if(result) { 
-                    this.deleteBook(book);; 
-                }  
-            })            
-        )
-    }
+  deleteBookHandler(book: IReadBook): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '50%',
+      restoreFocus: false,
+      data: book
+    })
 
-    deleteBook(book: IReadBook): void{
-        this.subscriptions.push(
-            this.booksService
-                .deleteReadBook(book.id)
-                .subscribe()       
-        )
-    }
+    this.subscriptions.push(
+      dialogRef.afterClosed().subscribe((result: boolean): void => {
+        if (result) { 
+          this.deleteBook(book);; 
+        }  
+      })            
+    )
+  }
 
-    ngOnInit() {
-        this.subscriptions = [];
-        this.observeBooks();
-    }
+  deleteBook(book: IReadBook): void{
+    this.subscriptions.push(
+      this.booksService
+      .deleteReadBook(book.id)
+      .subscribe()       
+    )
+  }
 
-    ngOnDestroy() {
-        this.subscriptions.forEach((s:Subscription): void => s.unsubscribe())
-    }
+  ngOnInit() {
+    this.subscriptions = [];
+    this.observeBooks();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions
+    .forEach((s:Subscription): void => s.unsubscribe())
+  }
 }
