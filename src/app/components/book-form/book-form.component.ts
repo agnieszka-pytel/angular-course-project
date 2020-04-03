@@ -1,12 +1,10 @@
 import { Component, ChangeDetectionStrategy, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BooksService } from '@app/shared/services/books.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { IReadBook } from '@app/shared/models/read-book.model';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
-import { FormActions } from '@app/shared/enums';
+import { FormActions, BookFormFields } from '@app/shared/enums';
 
 @Component({
   selector: 'app-book-form',
@@ -28,11 +26,10 @@ export class BookFormComponent implements OnInit {
     ratingValues: number[] = [1,2,3,4,5];  
     myForm: FormGroup;
  
-    constructor(private fb: FormBuilder, private booksService:BooksService){
-    }
+    constructor(private fb: FormBuilder) { }
 
     ngOnInit(){
-        if (this.action === FormActions.Add){
+        if (this.action === FormActions.Add) {
             this.myForm = this.fb.group({
                 title: ['', Validators.required],
                 author: ['', Validators.required],
@@ -40,7 +37,7 @@ export class BookFormComponent implements OnInit {
             });
 
             this.formInvalid.emit(this.myForm.invalid)   
-        } else if (this.action === FormActions.Edit){
+        } else if (this.action === FormActions.Edit) {
             this.myForm = this.fb.group({
                 title: this.bookToUpdate.title,
                 author: this.bookToUpdate.author,
@@ -54,8 +51,8 @@ export class BookFormComponent implements OnInit {
             });
 
     
-        if (this.dialogClosed){
-            this.dialogClosed.subscribe(() => {
+        if (this.dialogClosed) {
+            this.dialogClosed.subscribe((): void => {
                 this.action === FormActions.Edit ? 
                     this.updatedBook.emit(this.myForm.value) :
                     this.newBook.emit(this.myForm.value)
@@ -63,15 +60,15 @@ export class BookFormComponent implements OnInit {
         }
     }
 
-    get title(){
-        return this.myForm.get('title');
+    get title(): AbstractControl {
+        return this.myForm.get(BookFormFields.Title);
     }
 
-    get author(){
-        return this.myForm.get('author');
+    get author(): AbstractControl {
+        return this.myForm.get(BookFormFields.Author);
     }
 
-    get rating(){
-        return this.myForm.get('rating');
+    get rating(): AbstractControl {
+        return this.myForm.get(BookFormFields.Rating);
     }
 }

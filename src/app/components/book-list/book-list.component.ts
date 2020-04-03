@@ -8,6 +8,7 @@ import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { ConfirmDialogComponent } from '../book-dialog/confirm/confirm-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
 import { FormActions } from '@app/shared/enums';
+import { DocumentChangeAction } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-book-list',
@@ -30,14 +31,15 @@ export class BookListComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.booksService
                 .getReadBooks().pipe(
-                    map(data => data.map(element => {
-                        return {
-                            id: element.payload.doc.id,
-                            ...(element.payload.doc.data() as {})
-                        } as IReadBook;
-                        })
+                    map((data: DocumentChangeAction<unknown>[]): IReadBook[] => data
+                        .map((element: DocumentChangeAction<unknown>): IReadBook => {
+                            return {
+                                id: element.payload.doc.id,
+                                ...(element.payload.doc.data() as {})
+                            } as IReadBook;
+                            })
                     )
-                ).subscribe(data => {
+                ).subscribe((data: IReadBook[]): void => {
                     this._books.next(data)
                 })
         )
@@ -52,7 +54,7 @@ export class BookListComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.action = FormActions.Add;
 
         this.subscriptions.push(
-            dialogRef.afterClosed().subscribe(result => {
+            dialogRef.afterClosed().subscribe((result: IReadBook): void => {
                 if(result) {
                     this.addBook(result); 
                 }  
@@ -76,7 +78,7 @@ export class BookListComponent implements OnInit, OnDestroy {
         })
 
         this.subscriptions.push(
-            dialogRef.afterClosed().subscribe(result => {
+            dialogRef.afterClosed().subscribe((result: Partial<IReadBook>): void => {
                 if(result) { 
                     this.editBook(book, result); 
                 }  
@@ -84,7 +86,7 @@ export class BookListComponent implements OnInit, OnDestroy {
         )
     }
 
-    editBook(book: IReadBook, updatedBook: IReadBook): void{
+    editBook(book: IReadBook, updatedBook: Partial<IReadBook>): void{
         this.subscriptions.push(
             this.booksService
                 .updateReadBook(book.id, updatedBook)
@@ -100,7 +102,7 @@ export class BookListComponent implements OnInit, OnDestroy {
         })
 
         this.subscriptions.push(
-            dialogRef.afterClosed().subscribe(result => {
+            dialogRef.afterClosed().subscribe((result: boolean): void => {
                 if(result) { 
                     this.deleteBook(book);; 
                 }  
@@ -122,6 +124,6 @@ export class BookListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe())
+        this.subscriptions.forEach((s:Subscription): void => s.unsubscribe())
     }
 }

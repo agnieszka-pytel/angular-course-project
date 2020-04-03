@@ -26,10 +26,10 @@ export class BooksService {
             .collection(Collections.ReadBooks)
             .add(data)
       ).pipe(
-          map(res => {
+          map((res): void => {
               this.showMessage(BookMessages.SuccessAdd)
             }),
-          catchError(error => of(this.showMessage(BookMessages.ErrorAdd)))
+          catchError((error): Observable<void> => of(this.showMessage(BookMessages.ErrorAdd)))
       )
   }
 
@@ -40,10 +40,10 @@ export class BooksService {
             .doc(id)
             .update(data)
       ).pipe(
-          map(res => {
+          map((res): void => {
               this.showMessage(BookMessages.SuccessEdit)
             }),
-            catchError(error => of(this.showMessage(BookMessages.ErrorEdit)))
+            catchError((error): Observable<void> => of(this.showMessage(BookMessages.ErrorEdit)))
         )
   }
 
@@ -54,10 +54,10 @@ export class BooksService {
             .doc(id)
             .delete()
     ).pipe(
-        map(res => {
+        map((res): void => {
             this.showMessage(BookMessages.SuccessDelete)
           }),
-          catchError(error => of(this.showMessage(BookMessages.ErrorDelete)))
+          catchError((error): Observable<void> => of(this.showMessage(BookMessages.ErrorDelete)))
       )
   }
 
