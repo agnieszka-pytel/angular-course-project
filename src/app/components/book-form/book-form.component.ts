@@ -29,20 +29,23 @@ export class BookFormComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(){
-    if (this.action === FormActions.Add) {
-      this.myForm = this.fb.group({
-        title: ['', Validators.required],
-        author: ['', Validators.required],
-        rating: ['', Validators.required],
-    });
+    switch(this.action){
+      case FormActions.Add:
+        this.myForm = this.fb.group({
+          title: ['', Validators.required],
+          author: ['', Validators.required],
+          rating: ['', Validators.required],
+        });
 
-      this.formInvalid.emit(this.myForm.invalid)   
-    } else if (this.action === FormActions.Edit) {
-      this.myForm = this.fb.group({
-        title: this.bookToUpdate.title,
-        author: this.bookToUpdate.author,
-        rating: this.bookToUpdate.rating,
-      })
+        this.formInvalid.emit(this.myForm.invalid)  
+        break;
+      case FormActions.Edit:
+        this.myForm = this.fb.group({
+          title: this.bookToUpdate.title,
+          author: this.bookToUpdate.author,
+          rating: this.bookToUpdate.rating,
+        })
+        break;
     }
   
     this.myForm.valueChanges
