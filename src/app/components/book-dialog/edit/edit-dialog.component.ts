@@ -10,25 +10,41 @@ import { FormActions } from '@app/shared/enums';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDialogComponent {
-  readonly action = FormActions.Edit;
-  updatedBook: Partial<IReadBook>;
-  dialogClosed: EventEmitter<boolean> = new EventEmitter();
+  private readonly _action = FormActions.Edit;
+  private _updatedBook: Partial<IReadBook>;
+  private _dialogClosed: EventEmitter<boolean> = new EventEmitter();
   
   constructor(
-    public dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public book: IReadBook
+    private _dialogRef: MatDialogRef<EditDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) readonly book: IReadBook
   ) {}
     
   getUpdatedBook($event: Partial<IReadBook>) {
-    this.updatedBook = $event;
+    this._updatedBook = $event;
   }
 
   onSubmit() {
-    this.dialogClosed.emit(true);
-    this.dialogRef.close(this.updatedBook);
+    this._dialogClosed.emit(true);
+    this._dialogRef.close(this._updatedBook);
   }
 
   onNoClick() {
-    this.dialogRef.close();
+    this._dialogRef.close();
+  }
+
+  get action(): FormActions {
+    return this._action;
+  }
+
+  get updatedBook(): Partial<IReadBook> {
+    return this._updatedBook;
+  }
+
+	get dialogClosed(): EventEmitter<boolean>  {
+		return this._dialogClosed;
+  }
+  
+  get dialogRef(): MatDialogRef<EditDialogComponent> {
+    return this._dialogRef;
   }
 }

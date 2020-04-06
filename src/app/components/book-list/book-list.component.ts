@@ -18,17 +18,17 @@ import { DocumentChangeAction } from '@angular/fire/firestore';
 })
 export class BookListComponent implements OnInit, OnDestroy {
 
-  _books: BehaviorSubject<IReadBook[]>;
-  books$: Observable<IReadBook[]>;
-  subscriptions: Subscription[];
+  private _books: BehaviorSubject<IReadBook[]>;
+  private _books$: Observable<IReadBook[]>;
+  private _subscriptions: Subscription[];
 
   constructor(private booksService: BooksService, public dialog: MatDialog) {
     this._books = new BehaviorSubject([]);
-    this.books$ = this._books.asObservable();
+    this._books$ = this._books.asObservable();
   }
 
   observeBooks(): void {
-    this.subscriptions.push(
+    this._subscriptions.push(
       this.booksService
       .getReadBooks().pipe(
         map((data: DocumentChangeAction<unknown>[]): IReadBook[] => {
@@ -51,9 +51,7 @@ export class BookListComponent implements OnInit, OnDestroy {
       restoreFocus: false
     })
 
-    dialogRef.componentInstance.action = FormActions.Add;
-
-    this.subscriptions.push(
+    this._subscriptions.push(
       dialogRef.afterClosed().subscribe((result: IReadBook): void => {
         if (result) {
           this.addBook(result); 
@@ -63,7 +61,7 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   addBook(book: IReadBook): void {
-    this.subscriptions.push(
+    this._subscriptions.push(
       this.booksService
       .addReadBook(book)
       .subscribe()
@@ -77,7 +75,7 @@ export class BookListComponent implements OnInit, OnDestroy {
       data: book
     })
 
-    this.subscriptions.push(
+    this._subscriptions.push(
       dialogRef.afterClosed().subscribe((result: Partial<IReadBook>): void => {
           if (result) { 
             this.editBook(book, result); 
@@ -87,7 +85,7 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   editBook(book: IReadBook, updatedBook: Partial<IReadBook>): void{
-    this.subscriptions.push(
+    this._subscriptions.push(
       this.booksService
       .updateReadBook(book.id, updatedBook)
       .subscribe()
@@ -101,7 +99,7 @@ export class BookListComponent implements OnInit, OnDestroy {
       data: book
     })
 
-    this.subscriptions.push(
+    this._subscriptions.push(
       dialogRef.afterClosed().subscribe((result: boolean): void => {
         if (result) { 
           this.deleteBook(book);; 
@@ -111,20 +109,24 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   deleteBook(book: IReadBook): void{
-    this.subscriptions.push(
+    this._subscriptions.push(
       this.booksService
       .deleteReadBook(book.id)
       .subscribe()       
     )
   }
 
+  get books$(): Observable<IReadBook[]> {
+    return this._books$;
+  }
+
   ngOnInit() {
-    this.subscriptions = [];
+    this._subscriptions = [];
     this.observeBooks();
   }
 
   ngOnDestroy() {
-    this.subscriptions
+    this._subscriptions
     .forEach((s:Subscription): void => s.unsubscribe())
   }
 }

@@ -10,30 +10,46 @@ import { FormActions } from '@app/shared/enums';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDialogComponent {
-  action = FormActions.Add;
-  newBook: IReadBook;
-  formInvalid: boolean;
-  dialogClosed: EventEmitter<boolean> = new EventEmitter();
+  private readonly _action = FormActions.Add;
+  private _newBook: IReadBook;
+  private _formInvalid: boolean;
+  private _dialogClosed: EventEmitter<boolean> = new EventEmitter();
     
   constructor(
-    public dialogRef: MatDialogRef<AddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public book: IReadBook
+    private _dialogRef: MatDialogRef<AddDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) readonly book: IReadBook
     ) {}
   
   getNewBook($event: IReadBook) { 
-    this.newBook = $event;
+    this._newBook = $event;
   }
 
   getFormStatus($event: boolean) {
-    this.formInvalid = $event;
+    this._formInvalid = $event;
   }
 
   onSubmit() {
-    this.dialogClosed.emit(true);
-    this.dialogRef.close(this.newBook); 
+    this._dialogClosed.emit(true);
+    this._dialogRef.close(this._newBook); 
   }
 
   onNoClick() {
-    this.dialogRef.close();
+    this._dialogRef.close();
+  }
+
+  get action(): FormActions {
+    return this._action;
+  }
+
+	get formInvalid(): boolean {
+		return this._formInvalid;
+  }
+
+	get dialogClosed(): EventEmitter<boolean>  {
+		return this._dialogClosed;
+  }
+  
+  get dialogRef(): MatDialogRef<AddDialogComponent> {
+    return this._dialogRef;
   }
 }

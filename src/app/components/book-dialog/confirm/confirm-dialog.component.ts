@@ -10,15 +10,19 @@ import { IReadBook } from '@app/shared/models/read-book.model';
 })
 export class ConfirmDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public book: IReadBook
+    private _dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) readonly book: IReadBook
   ) {}
 
   onSubmit() {
-    this.dialogRef.close(true);
+    this._dialogRef.close(true);
   }
 
   onNoClick() {
-    this.dialogRef.close();
+    this._dialogRef.close();
+  }
+
+  get dialogRef(): MatDialogRef<ConfirmDialogComponent> {
+    return this._dialogRef;
   }
 }
