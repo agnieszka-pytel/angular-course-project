@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
 import { FormActions, BookFormFields } from '@app/shared/enums';
+import { AbstractSubscriptionComponent } from '@app/abstracts/abstract-subscription.component';
 
 @Component({
   selector: 'app-book-form',
@@ -12,7 +13,7 @@ import { FormActions, BookFormFields } from '@app/shared/enums';
   styleUrls: ['./book-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookFormComponent implements OnInit {
+export class BookFormComponent extends AbstractSubscriptionComponent implements OnInit {
 
   @Input() action: FormActions;
   @Input() dialogRef?: MatDialogRef<EditDialogComponent | AddDialogComponent>;
@@ -26,7 +27,9 @@ export class BookFormComponent implements OnInit {
   readonly ratingValues: number[] = [1,2,3,4,5];  
   private _myForm: FormGroup;
  
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {
+    super();
+   }
 
   ngOnInit(){
     switch(this.action){
@@ -47,18 +50,21 @@ export class BookFormComponent implements OnInit {
         })
         break;
     }
-  
-    this._myForm.valueChanges
-    .subscribe(() => {
-      this.formInvalid.emit(this._myForm.invalid);
-    });
+    this._subscriptions.push(
+      this._myForm.valueChanges
+      .subscribe(() => {
+        this.formInvalid.emit(this._myForm.invalid);
+      })
+    )
     
     if (this.dialogClosed) {
-      this.dialogClosed.subscribe((): void => {
-        this.action === FormActions.Edit ? 
-        this.updatedBook.emit(this._myForm.value) :
-        this.newBook.emit(this._myForm.value)
-      })
+      this._subscriptions.push(
+        this.dialogClosed.subscribe((): void => {
+          this.action === FormActions.Edit ? 
+          this.updatedBook.emit(this._myForm.value) :
+          this.newBook.emit(this._myForm.value)
+        })  
+      )
     }
   }
 

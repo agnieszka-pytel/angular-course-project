@@ -1,14 +1,14 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Inject } from '@angular/core';
 import { BooksService } from '@app/shared/services/books.service';
 import { IReadBook } from '@app/shared/models/read-book.model';
 import { map } from 'rxjs/operators';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { ConfirmDialogComponent } from '../book-dialog/confirm/confirm-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
-import { FormActions } from '@app/shared/enums';
 import { DocumentChangeAction } from '@angular/fire/firestore';
+import { AbstractSubscriptionComponent } from '@app/abstracts/abstract-subscription.component';
 
 @Component({
   selector: 'app-book-list',
@@ -16,13 +16,13 @@ import { DocumentChangeAction } from '@angular/fire/firestore';
   styleUrls: ['./book-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookListComponent implements OnInit, OnDestroy {
+export class BookListComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
 
   private _books: BehaviorSubject<IReadBook[]>;
   private _books$: Observable<IReadBook[]>;
-  private _subscriptions: Subscription[];
 
-  constructor(private booksService: BooksService, public dialog: MatDialog) {
+  constructor(private booksService: BooksService, public dialog: MatDialog ) {
+    super();
     this._books = new BehaviorSubject([]);
     this._books$ = this._books.asObservable();
   }
@@ -121,12 +121,6 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._subscriptions = [];
     this.observeBooks();
-  }
-
-  ngOnDestroy() {
-    this._subscriptions
-    .forEach((s:Subscription): void => s.unsubscribe())
   }
 }
