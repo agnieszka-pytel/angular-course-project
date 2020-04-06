@@ -20,6 +20,7 @@ import { EditDialogComponent } from '@app/components/book-dialog/edit/edit-dialo
 import { ConfirmDialogComponent } from '@app/components/book-dialog/confirm/confirm-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AddDialogComponent } from '@app/components/book-dialog/add/add-dialog.component';
+import { ErrorHandlerService } from '@app/shared/services/error-handler.service';
  
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { AddDialogComponent } from '@app/components/book-dialog/add/add-dialog.c
     AddDialogComponent
   ],
   providers: [
-      BooksService
+      BooksService,
+      ErrorHandlerService
   ]
 })
 export class HistoryModule { }

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { IReadBook } from '@app/shared/models/read-book.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Collections, BookMessages } from '../enums';
 import { Observable, from, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService {
 
-  constructor( private firestore: AngularFirestore, private snackBar: MatSnackBar ) { }
+  constructor( private firestore: AngularFirestore, private errorHandler: ErrorHandlerService) { }
 
   getReadBooks(): Observable<DocumentChangeAction<unknown>[]> {
     return this.firestore.collection(Collections.ReadBooks).snapshotChanges();
@@ -27,9 +27,9 @@ export class BooksService {
       .add(data)
     ).pipe(
       map((res): void => {
-        this.showMessage(BookMessages.SuccessAdd)
+        this.errorHandler.showMessage(BookMessages.SuccessAdd)
       }),
-      catchError((error): Observable<void> => of(this.showMessage(BookMessages.ErrorAdd)))
+      catchError((error): Observable<void> => of(this.errorHandler.showMessage(BookMessages.ErrorAdd)))
     )
   }
 
@@ -41,9 +41,9 @@ export class BooksService {
       .update(data)
     ).pipe(
       map((res): void => {
-        this.showMessage(BookMessages.SuccessEdit)
+        this.errorHandler.showMessage(BookMessages.SuccessEdit)
       }),
-      catchError((error): Observable<void> => of(this.showMessage(BookMessages.ErrorEdit)))
+      catchError((error): Observable<void> => of(this.errorHandler.showMessage(BookMessages.ErrorEdit)))
     )
   }
 
@@ -55,13 +55,9 @@ export class BooksService {
       .delete()
     ).pipe(
       map((res): void => {
-        this.showMessage(BookMessages.SuccessDelete)
+        this.errorHandler.showMessage(BookMessages.SuccessDelete)
       }),
-      catchError((error): Observable<void> => of(this.showMessage(BookMessages.ErrorDelete)))
+      catchError((error): Observable<void> => of(this.errorHandler.showMessage(BookMessages.ErrorDelete)))
     )
-  }
-
-  showMessage(message: string): void {
-    this.snackBar.open(message, '', { duration: 2500 })
   }
 }
