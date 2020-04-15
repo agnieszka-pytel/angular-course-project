@@ -9,6 +9,10 @@ import { ConfirmDialogComponent } from '../book-dialog/confirm/confirm-dialog.co
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
 import { DocumentChangeAction } from '@angular/fire/firestore';
 import { AbstractSubscriptionComponent } from '@app/abstracts/abstract-subscription.component';
+import { Store, select } from '@ngrx/store';
+import * as fromBookSelectors from '@app/store/selectors/books.selectors';
+import * as fromBookActions from '@app/store/actions/books.actions';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-book-list',
@@ -18,57 +22,30 @@ import { AbstractSubscriptionComponent } from '@app/abstracts/abstract-subscript
 })
 export class BookListComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
 
-  private _books: BehaviorSubject<IReadBook[]>;
-  private _books$: Observable<IReadBook[]>;
+  private _books$: Observable<IReadBook[]> = this.store.pipe(select(fromBookSelectors.getAllBooks));
 
-  constructor(private booksService: BooksService, public dialog: MatDialog ) {
+  constructor(private store: Store<IReadBook[]>, private booksService: BooksService, public dialog: MatDialog ) {
     super();
-    this._books = new BehaviorSubject([]);
-    this._books$ = this._books.asObservable();
   }
 
-  observeBooks(): void {
-    this._subscriptions.push(
-      this.booksService
-      .getReadBooks().pipe(
-        map((data: DocumentChangeAction<unknown>[]): IReadBook[] => {
-          return data.map((element: DocumentChangeAction<unknown>): IReadBook => {
-            return {
-              id: element.payload.doc.id,
-              ...(element.payload.doc.data() as {})
-            } as IReadBook;
-          })
-        })
-      ).subscribe((data: IReadBook[]): void => {
-        this._books.next(data)
-      })
-    )
-  }
-
-  addBookHandler(): void {
+  addBook(): void {
     const dialogRef = this.dialog.open(AddDialogComponent, {
       width: '50%',
       restoreFocus: false
     })
 
     this._subscriptions.push(
-      dialogRef.afterClosed().subscribe((result: IReadBook): void => {
-        if (result) {
-          this.addBook(result); 
+      dialogRef.afterClosed().subscribe((newBook: IReadBook): void => {
+        if (newBook) {
+          const today = new Date();
+          newBook.date = today.toLocaleDateString();
+          this.store.dispatch(fromBookActions.addBook({book: newBook}));
         }  
       })
     )
   }
 
-  addBook(book: IReadBook): void {
-    this._subscriptions.push(
-      this.booksService
-      .addReadBook(book)
-      .subscribe()
-    )
-  }
-
-  editBookHandler(book: IReadBook): void {
+  editBook(book: IReadBook): void {
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '50%',
       restoreFocus: false,
@@ -76,23 +53,22 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
     })
 
     this._subscriptions.push(
-      dialogRef.afterClosed().subscribe((result: Partial<IReadBook>): void => {
-          if (result) { 
-            this.editBook(book, result); 
-          }  
+      dialogRef.afterClosed().subscribe((updates: Partial<IReadBook>): void => {
+        if (updates) { 
+          const update: Update<IReadBook> = {
+            id: book.id,
+            changes: {
+              ...book,
+              ...updates
+            }
+          }
+          this.store.dispatch(fromBookActions.editBook({ update }))
+        }  
       })    
     )
   }
 
-  editBook(book: IReadBook, updatedBook: Partial<IReadBook>): void{
-    this._subscriptions.push(
-      this.booksService
-      .updateReadBook(book.id, updatedBook)
-      .subscribe()
-    )
-  }
-
-  deleteBookHandler(book: IReadBook): void {
+  deleteBook(book: IReadBook): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '50%',
       restoreFocus: false,
@@ -100,19 +76,11 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
     })
 
     this._subscriptions.push(
-      dialogRef.afterClosed().subscribe((result: boolean): void => {
-        if (result) { 
-          this.deleteBook(book);; 
+      dialogRef.afterClosed().subscribe((confirmDelete: boolean): void => {
+        if (confirmDelete) { 
+          this.store.dispatch(fromBookActions.deleteBook({ id: book.id })); 
         }  
       })            
-    )
-  }
-
-  deleteBook(book: IReadBook): void{
-    this._subscriptions.push(
-      this.booksService
-      .deleteReadBook(book.id)
-      .subscribe()       
     )
   }
 
@@ -121,6 +89,6 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
   }
 
   ngOnInit() {
-    this.observeBooks();
+    this.store.dispatch(fromBookActions.loadBooks());
   }
 }

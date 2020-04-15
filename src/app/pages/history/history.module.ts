@@ -21,6 +21,10 @@ import { ConfirmDialogComponent } from '@app/components/book-dialog/confirm/conf
 import { MatIconModule } from '@angular/material/icon';
 import { AddDialogComponent } from '@app/components/book-dialog/add/add-dialog.component';
 import { ErrorHandlerService } from '@app/shared/services/error-handler.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { BookEffects } from '@app/store/effects/books.effects';
+import * as fromBooksReducer from '@app/store/reducers/books.reducer';
  
 @NgModule({
   imports: [
@@ -34,7 +38,9 @@ import { ErrorHandlerService } from '@app/shared/services/error-handler.service'
     MatSelectModule,
     MatCardModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    StoreModule.forFeature(fromBooksReducer.booksFeatureKey, fromBooksReducer.bookReducer),
+    EffectsModule.forFeature([BookEffects]),
   ],
   declarations: [
     HistoryComponent,

@@ -5,6 +5,7 @@ import { Collections, BookMessages } from '../enums';
 import { Observable, from, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
+import { Action } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,20 @@ export class BooksService {
 
   constructor( private firestore: AngularFirestore, private errorHandler: ErrorHandlerService) { }
 
-  getReadBooks(): Observable<DocumentChangeAction<unknown>[]> {
-    return this.firestore.collection(Collections.ReadBooks).snapshotChanges();
+  getReadBooks(): Observable<IReadBook[]> {
+    return this.firestore.collection(Collections.ReadBooks).snapshotChanges().pipe(
+      map((data: DocumentChangeAction<unknown>[]): IReadBook[] => {
+        return data.map((element: DocumentChangeAction<unknown>): IReadBook => {
+          return {
+            id: element.payload.doc.id,
+            ...(element.payload.doc.data() as {})
+          } as IReadBook;
+        })
+      })
+    );
   }
 
-  addReadBook(data: IReadBook): Observable<void> {
-    let today = new Date();
-    data.date = today.toLocaleDateString();
-
+  addReadBook(data: IReadBook): Observable<any> {
     return from(
       this.firestore
       .collection(Collections.ReadBooks)
@@ -33,7 +40,7 @@ export class BooksService {
     )
   }
 
-  updateReadBook(id: string, data: Partial<IReadBook>): Observable<void> {
+  updateReadBook(id: string, data: Partial<IReadBook>): Observable<any> {
     return from(
       this.firestore
       .collection(Collections.ReadBooks)
@@ -47,7 +54,7 @@ export class BooksService {
     )
   }
 
-  deleteReadBook(id: string): Observable<void> {
+  deleteReadBook(id: string): Observable<any> {
     return from(
       this.firestore
       .collection(Collections.ReadBooks)

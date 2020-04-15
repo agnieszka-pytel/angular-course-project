@@ -134,5 +134,8 @@
       }
     }
   },
-  "defaultProject": "bookshelf-app"
+  "defaultProject": "bookshelf-app",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

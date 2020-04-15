@@ -12,6 +12,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import {MatIconModule} from '@angular/material/icon';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,9 @@ import {MatIconModule} from '@angular/material/icon';
     AngularFireModule.initializeApp(config.firebaseConfig),
     AngularFirestoreModule,
     MatIconModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({}),
   ],
   providers: [],
   bootstrap: [AppComponent]
