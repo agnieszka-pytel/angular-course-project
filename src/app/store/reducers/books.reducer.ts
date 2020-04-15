@@ -34,7 +34,7 @@ export const bookReducer = createReducer(
     }
   }),
 
-  on(fromBookActions.addBookSuccess, (state, { book }) => {
+  on(fromBookActions.addBook, (state, { book }) => {
     return adapter.addOne(book, state);
   }),
 
@@ -45,7 +45,7 @@ export const bookReducer = createReducer(
     }
   }),
 
-  on(fromBookActions.editBookSuccess, (state, { update }) => {
+  on(fromBookActions.editBook, (state, { update }) => {
     return adapter.updateOne(update, state)
   }),
 
@@ -56,7 +56,7 @@ export const bookReducer = createReducer(
     }
   }),
 
-  on(fromBookActions.deleteBookSuccess, (state, { id }) => {
+  on(fromBookActions.deleteBook, (state, { id }) => {
     return adapter.removeOne(id, state)
   }),
 
