@@ -13,7 +13,7 @@ export class AddDialogComponent {
   private readonly _action = FormActions.Add;
   private _newBook: IReadBook;
   private _formInvalid: boolean;
-  private _dialogClosed: EventEmitter<boolean> = new EventEmitter();
+  private _dialogClosed: EventEmitter<boolean> = new EventEmitter<boolean>();
     
   constructor(
     private _dialogRef: MatDialogRef<AddDialogComponent>,

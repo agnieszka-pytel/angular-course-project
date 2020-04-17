@@ -1,13 +1,10 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, Inject } from '@angular/core';
-import { BooksService } from '@app/shared/services/books.service';
 import { IReadBook } from '@app/shared/models/read-book.model';
-import { map } from 'rxjs/operators';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { ConfirmDialogComponent } from '../book-dialog/confirm/confirm-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
-import { DocumentChangeAction } from '@angular/fire/firestore';
 import { AbstractSubscriptionComponent } from '@app/abstracts/abstract-subscription.component';
 import { Store, select } from '@ngrx/store';
 import * as fromBookSelectors from '@app/store/selectors/books.selectors';
@@ -22,9 +19,9 @@ import { Update } from '@ngrx/entity';
 })
 export class BookListComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
 
-  private _books$: Observable<IReadBook[]> = this.store.pipe(select(fromBookSelectors.getAllBooks));
+  private _books$: Observable<IReadBook[]> = this._store.pipe(select(fromBookSelectors.getAllBooks));
 
-  constructor(private store: Store<IReadBook[]>, private booksService: BooksService, public dialog: MatDialog ) {
+  constructor(private _store: Store<IReadBook[]>, public dialog: MatDialog ) {
     super();
   }
 
@@ -39,7 +36,7 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
         if (newBook) {
           const today = new Date();
           newBook.date = today.toLocaleDateString();
-          this.store.dispatch(fromBookActions.addBook({book: newBook}));
+          this._store.dispatch(fromBookActions.addBook({book: newBook}));
         }  
       })
     )
@@ -62,7 +59,7 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
               ...updates
             }
           }
-          this.store.dispatch(fromBookActions.editBook({ update }))
+          this._store.dispatch(fromBookActions.editBook({ update }))
         }  
       })    
     )
@@ -78,7 +75,7 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
     this._subscriptions.push(
       dialogRef.afterClosed().subscribe((confirmDelete: boolean): void => {
         if (confirmDelete) { 
-          this.store.dispatch(fromBookActions.deleteBook({ id: book.id })); 
+          this._store.dispatch(fromBookActions.deleteBook({ id: book.id })); 
         }  
       })            
     )
@@ -89,6 +86,6 @@ export class BookListComponent extends AbstractSubscriptionComponent implements 
   }
 
   ngOnInit() {
-    this.store.dispatch(fromBookActions.loadBooks());
+    this._store.dispatch(fromBookActions.loadBooks());
   }
 }

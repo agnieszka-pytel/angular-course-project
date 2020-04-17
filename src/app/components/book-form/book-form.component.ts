@@ -6,6 +6,7 @@ import { EditDialogComponent } from '../book-dialog/edit/edit-dialog.component';
 import { AddDialogComponent } from '../book-dialog/add/add-dialog.component';
 import { FormActions, BookFormFields } from '@app/shared/enums';
 import { AbstractSubscriptionComponent } from '@app/abstracts/abstract-subscription.component';
+import * as fromConstants from '@app/shared/constants';
 
 @Component({
   selector: 'app-book-form',
@@ -20,12 +21,12 @@ export class BookFormComponent extends AbstractSubscriptionComponent implements 
   @Input() bookToUpdate?: IReadBook;
   @Input() dialogClosed: EventEmitter<boolean>;
 
-  @Output() updatedBook? = new EventEmitter<Partial<IReadBook>>(); 
-  @Output() newBook? = new EventEmitter<IReadBook>(); 
-  @Output() formInvalid? = new EventEmitter<boolean>();
+  @Output() updatedBook?: EventEmitter<Partial<IReadBook>> = new EventEmitter<Partial<IReadBook>>(); 
+  @Output() newBook?: EventEmitter<IReadBook> = new EventEmitter<IReadBook>(); 
+  @Output() formInvalid?: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  readonly ratingValues: number[] = [1,2,3,4,5];  
   private _myForm: FormGroup;
+  readonly ratingValues = fromConstants.ratingValues;
  
   constructor(private fb: FormBuilder) {
     super();
