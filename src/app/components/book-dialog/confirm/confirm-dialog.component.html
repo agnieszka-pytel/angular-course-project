@@ -1,0 +1,11 @@
+<p mat-dialog-title class="c-dialog__title">Do you really want to delete this book?</p>
+<div mat-dialog-content class="c-dialog__content">
+    <p class="c-dialog__book-title">{{ book.title }}</p>
+    <p class="c-dialog__book-author">{{ book.author }}</p>
+</div>   
+<div mat-dialog-actions class="c-dialog__actions fx fx-spacebetween">
+    <button mat-raised-button (click)="onNoClick()">No</button>
+    <button mat-raised-button color="warn" (click)="onSubmit()" mat-dialog-close>
+        <mat-icon>delete</mat-icon> Delete
+    </button>
+</div>

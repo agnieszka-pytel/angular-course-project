@@ -1,1 +1,23 @@
-<p>book-list works!</p>
+<div class="basic-container fx fx-xcenter fx-col">
+    <div class="c-button fx fx-xcenter">
+        <button mat-raised-button color="primary" (click)="addBook()">
+            <mat-icon>add</mat-icon> Add book
+        </button>
+    </div>
+    <div class="c-card__wrapper fx fx-spacebetween fx-wrap">
+        <mat-card class="c-card" *ngFor="let book of books$ | async">
+            <mat-card-title class="c-card__title">{{ book.title }}</mat-card-title>
+            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+            <mat-card-subtitle><span class="c-card__attribute">Rating: </span>{{ book.rating }}</mat-card-subtitle>
+            <mat-card-subtitle><span class="c-card__attribute">Date added: </span>{{ book.date }}</mat-card-subtitle>
+            <mat-card-actions class="c-card__actions fx fx-spaceevenly">
+                <button mat-button (click)="deleteBook(book)">
+                    <mat-icon>delete</mat-icon> Delete
+                </button>
+                <button mat-button (click)="editBook(book)">
+                    <mat-icon>edit</mat-icon> Edit
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

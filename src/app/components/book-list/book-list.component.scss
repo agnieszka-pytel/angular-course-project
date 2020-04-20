@@ -1,0 +1,18 @@
+.c-card {
+    width: 45%;
+    margin-bottom: 1rem;
+    background-color: rgba(0,0,0,0.05);
+    &__title {
+        line-height: 1.25;
+    }
+    &__actions {
+        display: flex;
+    }
+    &__attribute {
+        font-weight: 500;
+    }
+}
+
+.c-button {
+    margin-bottom: 2em;
+}
